@@ -6899,3 +6899,7 @@ button.close {
 .panel-info .panel-title {
   color: #fff;
 }
+
+.jumbotron{
+  background-color: #54b4eb;
+}
