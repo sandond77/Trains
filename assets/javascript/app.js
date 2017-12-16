@@ -33,6 +33,7 @@ $("#submit").click(function(event){
   frequency = $("#frequency").val("");
 })
 
+
 database.ref().on("child_added", function(childSnapshot, prevChildKey) {
   var name = childSnapshot.val().name;
   var destination = childSnapshot.val().destination;
@@ -66,9 +67,7 @@ database.ref().on("child_added", function(childSnapshot, prevChildKey) {
 
 
 setInterval(function(){
-  alert("page is updating");
   $("#tablebody").empty();
-
 
   database.ref().on("child_added", function(childSnapshot, prevChildKey) {
 
