@@ -6902,4 +6902,10 @@ button.close {
 
 .jumbotron{
   background-color: #54b4eb;
+  color: #fff;
 }
+
+th{
+  font-weight:bold;
+}
+

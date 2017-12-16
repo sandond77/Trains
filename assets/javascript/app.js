@@ -34,37 +34,22 @@ $("#submit").click(function(event){
 })
 
 database.ref().on("child_added", function(childSnapshot, prevChildKey) {
-  console.log(childSnapshot.val());
-
   var name = childSnapshot.val().name;
   var destination = childSnapshot.val().destination;
   var firsttrain = childSnapshot.val().firsttrain;
   var frequency = childSnapshot.val().frequency;
-
-  console.log(name);
-  console.log(destination);
-  console.log("first train: " + firsttrain);
-  console.log(frequency);
-
   var next = moment(firsttrain,'x')
   var now = moment().format("x");
-  console.log("current time: "+ now)
 
   while (now > next){
     next = next.add(frequency,"m");
-    console.log("while loop: " + next)
   }
 
-
   var away = moment(next,"x").diff(moment(now,"x"),"m")+1
-  console.log("minutes away: " + away)
-
 
   next = moment(next,"x").format("HH:mm");
-  console.log(next);
   
   now = moment(now,"x").format("HH:mm")
-  console.log(now);
 
   $("#trainstable > tbody").append(
     '<tr><td>' + name + '</td>' +
@@ -74,5 +59,44 @@ database.ref().on("child_added", function(childSnapshot, prevChildKey) {
     '<td>' + away + '</td><tr>' 
   )
 
-  $("#updated").text("Current Train Schedule " + "(Last Updated: "+ now +")");
+  $("#updated").text("Current Train Schedule " + "(Updates every minute, Last Updated - "+ now +")");
 });
+
+
+
+
+setInterval(function(){
+  alert("page is updating");
+  $("#tablebody").empty();
+
+
+  database.ref().on("child_added", function(childSnapshot, prevChildKey) {
+
+  var name = childSnapshot.val().name;
+  var destination = childSnapshot.val().destination;
+  var firsttrain = childSnapshot.val().firsttrain;
+  var frequency = childSnapshot.val().frequency;
+  var next = moment(firsttrain,'x')
+  var now = moment().format("x");
+
+  while (now > next){
+    next = next.add(frequency,"m");
+  }
+
+  var away = moment(next,"x").diff(moment(now,"x"),"m")+1
+
+  next = moment(next,"x").format("HH:mm");
+  
+  now = moment(now,"x").format("HH:mm")
+
+  $("#trainstable > tbody").append(
+    '<tr><td>' + name + '</td>' +
+    '<td>' + destination + '</td>' +
+    '<td>' + frequency + '</td>' +
+    '<td>' + next + '</td>' +
+    '<td>' + away + '</td><tr>' 
+  )
+
+  $("#updated").text("Current Train Schedule " + "(Updates every minute, Last Updated - "+ now +")");
+  });
+},60000);
